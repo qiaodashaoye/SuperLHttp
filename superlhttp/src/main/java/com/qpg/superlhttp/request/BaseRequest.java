@@ -231,7 +231,12 @@ public abstract class BaseRequest<R extends BaseRequest> {
         }
 
         if (headers.headersMap.size() > 0) {
-            newBuilder.addInterceptor(new HeadersInterceptor(headers.headersMap));
+            newBuilder.addInterceptor(new HeadersInterceptor(new HeadersInterceptor.Headers() {
+                @Override
+                public Map<String, String> headers() {
+                    return headers.headersMap;
+                }
+            }));
         }
 
         if (uploadCallback != null) {

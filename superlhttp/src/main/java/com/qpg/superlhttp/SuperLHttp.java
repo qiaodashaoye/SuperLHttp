@@ -6,6 +6,7 @@ import android.content.Context;
 import com.qpg.superlhttp.config.HttpGlobalConfig;
 import com.qpg.superlhttp.request.BaseHttpRequest;
 import com.qpg.superlhttp.request.GetRequest;
+import com.qpg.superlhttp.request.PostRequest;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -121,6 +122,14 @@ public class SuperLHttp {
     public static GetRequest get(String suffixUrl) {
         return new GetRequest(suffixUrl);
     }
+/**
+ * post请求
+ * @param suffixUrl
+ * @return
+ */
+    public static PostRequest post(String suffixUrl) {
+        return new PostRequest(suffixUrl);
+    }
 
     /**
      * 可传入自定义Retrofit接口服务的请求类型
@@ -130,16 +139,8 @@ public class SuperLHttp {
         return new RetrofitRequest();
     }
 
-    *//**
-     * post请求
-     * @param suffixUrl
-     * @return
-     *//*
-    public static PostRequest post(String suffixUrl) {
-        return new PostRequest(suffixUrl);
-    }
-
-    *//**
+    */
+   /**
      * head请求
      * @param suffixUrl
      * @return

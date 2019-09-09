@@ -10,19 +10,15 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * @Description: 请求头拦截
- */
 public class HeadersInterceptor implements Interceptor {
+    private final Headers mHeaders;
 
-    private Map<String, String> headers;
-
-    public HeadersInterceptor(Map<String, String> headers) {
-        this.headers = headers;
+    public HeadersInterceptor(Headers headers) {
+        this.mHeaders = headers;
     }
-
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
+        Map<String,String> headers=mHeaders.headers();
         Request.Builder builder = chain.request().newBuilder();
         if (headers != null && headers.size() > 0) {
             Set<String> keys = headers.keySet();
@@ -31,5 +27,8 @@ public class HeadersInterceptor implements Interceptor {
             }
         }
         return chain.proceed(builder.build());
+    }
+    public interface Headers{
+        Map<String,String> headers();
     }
 }

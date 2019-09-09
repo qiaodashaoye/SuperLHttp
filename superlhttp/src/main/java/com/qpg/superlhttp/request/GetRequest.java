@@ -22,7 +22,7 @@ public class GetRequest extends BaseHttpRequest<GetRequest> {
     public GetRequest(String suffixUrl) {
         super(suffixUrl);
     }
-
+    protected LiveData<?> result;
     @Override
     protected <T> LiveData<Resource<T>> execute(@NonNull LifecycleOwner owner,Type type) {
         LiveData<Resource<ResponseBody>> resourceLiveData=apiService.get(suffixUrl, params);
@@ -48,14 +48,20 @@ public class GetRequest extends BaseHttpRequest<GetRequest> {
 
     @Override
     protected <T> void execute(@NonNull LifecycleOwner owner, BaseCallback<T> callback) {
-        Observer disposableObserver = new ApiCallbackSubscriber(callback);
+        Observer observer = new ApiCallbackSubscriber(callback);
         if (super.tag != null) {
-         //   ApiManager.get().add(super.tag, disposableObserver);
+         //   ApiManager.get().add(super.tag, observer);
         }
         if (isLocalCache) {
-            this.cacheExecute(owner,getSubType(callback)).observe(owner,disposableObserver);
+            this.cacheExecute(owner,getSubType(callback)).observe(owner,observer);
         } else {
-            this.execute(owner,getType(callback)).observe(owner,disposableObserver);
+            result=this.execute(owner, getType(callback));
+           // this.execute(owner,getType(callback)).observe(owner,observer);
+            result.observe(owner,observer);
         }
+    }
+
+    public <T>  LiveData<T> asLiveData() {
+        return (LiveData<T>)result;
     }
 }

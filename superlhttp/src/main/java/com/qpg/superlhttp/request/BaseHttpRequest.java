@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 import com.qpg.superlhttp.api.SuperService;
 import com.qpg.superlhttp.calladapter.Resource;
@@ -35,6 +36,7 @@ public abstract class BaseHttpRequest<R extends BaseHttpRequest> extends BaseReq
     protected long cacheTime;//本地缓存时间
     protected Map<String, String> params = new LinkedHashMap<>();//请求参数
     protected Function function;
+   // protected LiveData<?> result;
 
     public BaseHttpRequest() {
     }
@@ -234,7 +236,9 @@ public abstract class BaseHttpRequest<R extends BaseHttpRequest> extends BaseReq
         this.cacheTime = cacheTime;
         return (R) this;
     }
-
+//    public <T>  LiveData<T> asLiveData() {
+//        return (LiveData<T>)result;
+//    }
     public String getSuffixUrl() {
         return suffixUrl;
     }
